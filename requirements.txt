@@ -1,0 +1,10 @@
+FastAPI
+requests
+python-dotenv
+uvicorn
+requests
+aiofiles
+pytest
+httpx
+pytest-mock
+pytest-asyncio
