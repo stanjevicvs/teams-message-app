@@ -15,7 +15,7 @@ class MessageSender:
             return result
         except Exception as e:
             print(f"Failed to send message: {e}")
-            return {"status": "message sender Failed to send message"}
+            return {"status": "Failed to send message"}
 
 async def main(message_text=None):
     if message_text is None:

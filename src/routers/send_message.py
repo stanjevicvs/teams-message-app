@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import os
 import httpx
 from dotenv import load_dotenv
-from src.utils.utils import construct_message, Message
+from src.utils.utils import Message
 
 # Load environment variables from .env file
 load_dotenv()
@@ -12,6 +12,7 @@ router = APIRouter()
 
 # Load the webhook URL once at the module level
 WEBHOOK_URL = os.getenv("TEAMS_WEBHOOK_URL")
+print(f"Loaded Webhook URL: {WEBHOOK_URL}") 
 
 @router.post("/sendMessage")
 async def send_message(message: Message):
@@ -29,7 +30,7 @@ async def send_message(message: Message):
     async with httpx.AsyncClient() as client:
         response = await client.post(WEBHOOK_URL, json=message.model_dump(), headers=headers)
     
-    if response.status_code != 200:
-        raise HTTPException(status_code=response.status_code, detail=f"gggggFailed to send message: {response.text}")
+    if response.status_code != 200 and response.status_code != 202:
+        raise HTTPException(status_code=response.status_code, detail=f"Failed to send message: {response.text}")
     
     return {"status": "Message sent successfully."}
